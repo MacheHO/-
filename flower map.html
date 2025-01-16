@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" defer></script>
+    <title>flower place</title>
+    <style>
+        body{
+            font-family: Helvetica;
+            -webkit-font-smoothing:antialiased;
+            background: rgba(71,147,227,1);
+        }
+        h2{
+            text-align: center;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+            padding: 30px 0;
+        }
+
+        /*table styles*/
+        .table-wrapper{
+            margin: 10px 70px 70px;
+            box-shadow: 0px 35px 50px rgba(0, 0, 0, 2);
+        }
+        .f1-table{
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: normal;
+            border: none;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 100%;
+            white-space: nowrap;
+            background-color: white;
+        }
+        .f1-table td, .f1-table th{
+            text-align: center;
+            padding: 8px;
+        }
+        .f1-table td{
+            border-right: 1px solid #f8f8f8;
+            font-size: 14px;
+        }
+        .f1-table thead th{
+            color:#ffffff;
+            background: #4FC3A1;
+            font-size: 16px;
+        }
+        .f1-table thead tr:first-child(odd){
+            color: #ffffff;
+            background: #324960;
+        }
+        .f1-table thead tr:first-child th{
+            background: #F8F8F8;
+            font-size: 18px;
+        }
+        .f1-table tr:nth-child(even){
+            background: #F8F8F8;
+        }
+        </style>
+</head>
+<body>
+    <div class ="table-wrapper">
+        <table class="f1-table">
+            <thead class="">
+                <tr>
+                    <th colspan="5"><h1 class="title">台中賞花景點</h1></th>
+                </tr>
+                <tr>
+                    <th>行政區域</th>
+                    <th>地點</th>
+                    <th>花種</th>
+                    <th>觀賞期</th>
+                    <th>地址</th>
+                </tr>
+            </thead>
+        </thead>
+        <tbody id="result"></tbody>
+        </table>
+    </div>
+</body>
+<script>
+    function httpGet(theUrl){
+        var xmlHTTP = new XMLHttpRequest();
+        xmlHTTP.open("GET", theUrl, false);
+        xmlHTTP.send(null);
+        return xmlHTTP.responseText;
+    }
+    let dataString = 
+    httpGet("https://datacenter.taichung.gov.tw/swagger/OpenData/f116d1db-56f7-4984-bad8-c82e383765c0");
+    let dataJSON = JSON.parse(dataString);
+    var table="";
+    for(var i in dataJSON){
+        table += "<tr>";
+        table += "<td>"
+            +dataJSON[i].行政區+"</td>"
+            +"<td>" + dataJSON[i].地點+"</td>"
+            +"<td>" + dataJSON[i].花種+"</td>"
+            +"<td>" + dataJSON[i].觀賞期間+"</td>"
+            +"<td>" + dataJSON[i].地址+"</td>";
+        table += "</tr>";
+    }
+    document.getElementById("result").innerHTML = table;
+</script>
+</html>
